@@ -22,8 +22,11 @@ std::vector<std::vector<densemat>> opcos::interpolate(elementselector& elemselec
         return argmat;
     }
 
-    std::cout << "Error in 'opcos' object: without FFT cos() can only be computed for constant (harmonic 1) operations" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'opcos' object: without FFT cos() can only be computed for constant (harmonic 1) operations" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 densemat opcos::multiharmonicinterpolate(int numtimeevals, elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)

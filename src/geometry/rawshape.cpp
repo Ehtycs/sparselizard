@@ -107,55 +107,55 @@ void rawshape::rotate(double alphax, double alphay, double alphaz, bool recursiv
 std::shared_ptr<rawshape> rawshape::extrude(int physreg, double height, int numlayers, std::vector<double> extrudedirection)
 {
     std::cout << "Error in 'rawshape' object: 'extrude' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::shared_ptr<rawshape> rawshape::duplicate(void)
 {
     std::cout << "Error in 'rawshape' object: 'duplicate' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 void rawshape::flip(void)
 {
     std::cout << "Error in 'rawshape' object: 'flip' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 void rawshape::setphysicalregion(int physreg) 
 {
     std::cout << "Error in 'rawshape' object: 'setphysicalregion' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 int rawshape::getcurvatureorder(void)
 {
     std::cout << "Error in 'rawshape' object: 'getcurvatureorder' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 int rawshape::getdimension(void)
 {
     std::cout << "Error in 'rawshape' object: 'getdimension' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::string rawshape::getname(void)
 {
     std::cout << "Error in 'rawshape' object: 'getname' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::vector<std::shared_ptr<rawshape>> rawshape::getsons(void)
 {
     std::cout << "Error in 'rawshape' object: 'getsons' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::vector<std::shared_ptr<rawshape>> rawshape::getsubshapes(void)
 {
     std::cout << "Error in 'rawshape' object: 'getsubshapes' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::vector<std::shared_ptr<rawshape>> rawshape::getsubshapesrecursively(void)
@@ -182,7 +182,7 @@ std::vector<std::shared_ptr<rawshape>> rawshape::getsubshapesrecursively(void)
 void rawshape::setsubshapes(std::vector<std::shared_ptr<rawshape>> subshapes)
 {
     std::cout << "Error in 'rawshape' object: 'setsubshapes' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 void rawshape::setsubshapesrecursively(std::vector<std::shared_ptr<rawshape>> subshapes)
@@ -257,31 +257,33 @@ void rawshape::replicatelinks(std::shared_ptr<rawshape> origin)
 int rawshape::getphysicalregion(void)
 {
     std::cout << "Error in 'rawshape' object: 'getphysicalregion' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::vector<double>* rawshape::getcoords(void)
 {
     std::cout << "Error in 'rawshape' object: 'getcoords' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::vector<std::vector<int>>* rawshape::getelems(void)
 {
     std::cout << "Error in 'rawshape' object: 'getelems' has not been defined for this shape" << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 std::shared_ptr<rawshape> rawshape::getpointer(void)
 {
-    std::cout << "Error in 'rawshape' object: 'getpointer' has not been defined for this shape" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'rawshape' object: 'getpointer' has not been defined for this shape" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 void rawshape::mesh(void)
 {
-    std::cout << "Error in 'rawshape' object: 'mesh' has not been defined for this shape" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'rawshape' object: 'mesh' has not been defined for this shape" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 

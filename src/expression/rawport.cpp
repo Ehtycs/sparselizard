@@ -23,8 +23,9 @@ void rawport::setvalue(double portval)
             myharmonics[1][0]->setvalue(portval);
         else
         {
-            std::cout << "Error in 'rawport' object: cannot set the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'rawport' object: cannot set the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 }
@@ -39,8 +40,9 @@ double rawport::getvalue(void)
             return myharmonics[1][0]->getvalue();
         else
         {
-            std::cout << "Error in 'rawport' object: cannot get the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'rawport' object: cannot get the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 }
@@ -98,7 +100,7 @@ std::shared_ptr<rawport> rawport::harmonic(std::vector<int> harmonicnumbers)
             else
             {
                 std::cout << "Error in 'rawport' object: in .harmonic cannot get harmonic " << harmonicnumbers[0] << " (does not exist)" << std::endl; 
-                abort();
+                throw std::runtime_error("");
             }
         }
         
@@ -119,7 +121,7 @@ std::shared_ptr<rawport> rawport::harmonic(std::vector<int> harmonicnumbers)
             else
             {
                 std::cout << "Error in 'rawport' object: in .harmonic cannot get harmonic " << harmonicnumbers[i] << " (does not exist)" << std::endl; 
-                abort();
+                throw std::runtime_error("");
             }
         }
         return harmsrawport;
@@ -131,7 +133,7 @@ std::shared_ptr<rawport> rawport::harmonic(std::vector<int> harmonicnumbers)
     else
     {
         std::cout << "Error in 'rawport' object: in .harmonic cannot get harmonic in constant port (does not exist)" << std::endl; 
-        abort();
+        throw std::runtime_error("");
     }
 }
         
@@ -149,8 +151,9 @@ std::shared_ptr<rawfield> rawport::getrawfield(void)
 {
     if (myrawfield.expired())
     {
-        std::cout << "Error in 'rawport' object: the associated rawfield is needed but it was destroyed" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawport' object: the associated rawfield is needed but it was destroyed" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     return myrawfield.lock();
@@ -160,8 +163,9 @@ std::shared_ptr<rawport> rawport::getprimal(void)
 {
     if (mybrother.expired())
     {
-        std::cout << "Error in 'rawport' object: the associated rawport is needed but it was destroyed" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawport' object: the associated rawport is needed but it was destroyed" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     if (myisprimal)
@@ -174,8 +178,9 @@ std::shared_ptr<rawport> rawport::getdual(void)
 {
     if (mybrother.expired())
     {
-        std::cout << "Error in 'rawport' object: the associated rawport is needed but it was destroyed" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawport' object: the associated rawport is needed but it was destroyed" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     if (myisprimal)

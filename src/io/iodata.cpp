@@ -5,8 +5,9 @@ iodata::iodata(int interpolorder, int geointerpolorder, bool isitscalardata, std
 {
     if (interpolorder <= 0 || geointerpolorder <= 0)
     {
-        std::cout << "Error in 'iodata' object: cannot have a negative or zero interpolation order" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'iodata' object: cannot have a negative or zero interpolation order" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     myinterpolorder = interpolorder;

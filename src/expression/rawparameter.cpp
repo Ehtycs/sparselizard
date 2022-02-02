@@ -32,8 +32,9 @@ void rawparameter::errorifundefined(std::vector<int> disjregs)
     {
         if (myoperations[disjregs[i]].size() == 1 && myoperations[disjregs[i]][0] == NULL)
         {
-            std::cout << "Error in 'parameter' object: the parameter has not been defined on the requested region" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'parameter' object: the parameter has not been defined on the requested region" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 }
@@ -66,8 +67,9 @@ void rawparameter::set(int physreg, expression input)
         
     if (mynumrows != input.countrows() || mynumcols != input.countcolumns())
     {
-        std::cout << "Error in 'parameter' object: trying to set the " << mynumrows << "x" << mynumcols << " sized parameter to a size " << input.countrows() << "x" << input.countcolumns() << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'parameter' object: trying to set the " << mynumrows << "x" << mynumcols << " sized parameter to a size " << input.countrows() << "x" << input.countcolumns() << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     maxopnum++;
@@ -86,8 +88,9 @@ void rawparameter::set(int physreg, expression input)
                 // Make sure there is no dof or tf in the operation:
                 if (op->isdofincluded() || op->istfincluded())
                 {
-                    std::cout << "Error in 'parameter' object: cannot set an expression containing a dof or a tf" << std::endl;
-                    abort();
+                    std::stringstream tmp;
+                    tmp  << "Error in 'parameter' object: cannot set an expression containing a dof or a tf" << std::endl;
+                    throw std::runtime_error(tmp.str());
                 }
                 myoperations[selecteddisjregs[i]][row*mynumcols+col] = op;
             }

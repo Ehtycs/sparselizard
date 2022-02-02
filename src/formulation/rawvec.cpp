@@ -346,8 +346,9 @@ void rawvec::write(std::string filename)
     
     if (mydofmanager == NULL)
     {
-        std::cout << "Error in 'rawvec' object: cannot write vec (structure is not defined)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawvec' object: cannot write vec (structure is not defined)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     if (filename.size() >= 5)
@@ -375,8 +376,9 @@ void rawvec::write(std::string filename)
     }
     
     std::cout << "Error in 'rawvec' object: cannot write vec data to file '" << filename << "'." << std::endl;
-    std::cout << "Supported formats are .txt (ASCII) and .bin (binary)." << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Supported formats are .txt (ASCII) and .bin (binary)." << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 void rawvec::load(std::string filename)
@@ -385,8 +387,9 @@ void rawvec::load(std::string filename)
     
     if (mydofmanager == NULL)
     {
-        std::cout << "Error in 'rawvec' object: cannot load vec (structure is not defined)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawvec' object: cannot load vec (structure is not defined)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     if (filename.size() >= 5)
@@ -399,8 +402,9 @@ void rawvec::load(std::string filename)
             std::vector<double> loadedvals = sl::loadvector(filename, ',', true);
             if (loadedvals.size() != size())
             {
-                std::cout << "Error in 'rawvec' object: loaded data size (" << loadedvals.size() << ") does not match the vector size (" << size() << ") " << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error in 'rawvec' object: loaded data size (" << loadedvals.size() << ") does not match the vector size (" << size() << ") " << std::endl;
+                throw std::runtime_error(tmp.str());
             }
             densemat valsmat(1,size(), loadedvals);
             indexmat adresses(1,size(),0,1);
@@ -418,8 +422,9 @@ void rawvec::load(std::string filename)
     }
     
     std::cout << "Error in 'rawvec' object: cannot load vec data from file '" << filename << "'." << std::endl;
-    std::cout << "Supported formats are .txt (ASCII) and .bin (binary)." << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Supported formats are .txt (ASCII) and .bin (binary)." << std::endl;
+    throw std::runtime_error(tmp.str());
 }
      
 void rawvec::print(void)

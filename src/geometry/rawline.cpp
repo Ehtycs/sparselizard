@@ -10,8 +10,9 @@ rawline::rawline(int physreg, std::vector<double> allcoords)
 
     if (mynummeshpoints < 2)
     {
-        std::cout << "Error in 'rawline' object: expected at least two mesh nodes in the line" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawline' object: expected at least two mesh nodes in the line" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     // First and last coordinates correspond to the two corner points:
@@ -35,14 +36,16 @@ rawline::rawline(int physreg, std::vector<std::shared_ptr<rawshape>> inputpoints
 {
     if (inputpoints.size() != 2 || inputpoints[0]->getdimension() != 0 || inputpoints[1]->getdimension() != 0)
     {
-        std::cout << "Error in 'rawline' object: expected two points in the line definition" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawline' object: expected two points in the line definition" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     if (nummeshpoints < 2)
     {
-        std::cout << "Error in 'rawline' object: expected at least two mesh nodes in the line" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawline' object: expected at least two mesh nodes in the line" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     myphysicalregion = physreg;

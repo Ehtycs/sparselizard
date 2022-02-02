@@ -5,8 +5,9 @@ void mesh::errorifloaded(void)
 {
     if (isloaded)
     {
-        std::cout << "Error in 'mesh' object: cannot perform the requested operation (mesh is already loaded)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: cannot perform the requested operation (mesh is already loaded)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -14,8 +15,9 @@ void mesh::errorifnotloaded(void)
 {
     if (not(isloaded))
     {
-        std::cout << "Error in 'mesh' object: cannot perform the requested operation (mesh is not loaded)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: cannot perform the requested operation (mesh is not loaded)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -117,26 +119,27 @@ void mesh::setadaptivity(expression criterion, int lownumsplits, int highnumspli
     if (not(criterion.isscalar()))
     {
         std::cout << "Error in 'mesh' object: expected a scalar criterion for h-adaptivity" << std::endl;
-        abort();   
+        throw std::runtime_error("");   
     }
     // The criterion cannot be multiharmonic:
     std::vector<int> alldisjregs(universe::getrawmesh()->getdisjointregions()->count());
     std::iota(alldisjregs.begin(), alldisjregs.end(), 0);
     if (not(criterion.isharmonicone(alldisjregs)))
     {
-        std::cout << "Error in 'mesh' object: cannot have a multiharmonic criterion for h-adaptivity" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: cannot have a multiharmonic criterion for h-adaptivity" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     if (lownumsplits < 0)
     {
         std::cout << "Error in 'mesh' object: in 'setadaptivity' cannot use negative minimum number of splits " << lownumsplits << std::endl;
-        abort();   
+        throw std::runtime_error("");   
     }
     if (highnumsplits < lownumsplits)
     {
         std::cout << "Error in 'mesh' object: in 'setadaptivity' the minimum number of splits cannot be larger than the maximum" << std::endl;
-        abort();   
+        throw std::runtime_error("");   
     }
     
     rawmeshptr->setadaptivity(criterion, lownumsplits, highnumsplits, -1);
@@ -252,8 +255,9 @@ void mesh::selectskin(int newphysreg, int physregtoskin)
 {
     if (physregtoskin < 0)
     {
-        std::cout << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     errorifloaded();
@@ -270,8 +274,9 @@ void mesh::selectbox(int newphysreg, int physregtobox, int selecteddim, std::vec
 {
     if (physregtobox < 0)
     {
-        std::cout << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     errorifloaded();
@@ -288,8 +293,9 @@ void mesh::selectsphere(int newphysreg, int physregtosphere, int selecteddim, st
 {
     if (physregtosphere < 0)
     {
-        std::cout << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     errorifloaded();
@@ -306,8 +312,9 @@ void mesh::selectlayer(int newphysreg, int physregtoselectfrom, int physregtosta
 {
     if (physregtoselectfrom < 0)
     {
-        std::cout << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     errorifloaded();
@@ -324,8 +331,9 @@ void mesh::selectexclusion(int newphysreg, int physregtoexcludefrom, std::vector
 {
     if (physregtoexcludefrom < 0)
     {
-        std::cout << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     errorifloaded();
@@ -342,8 +350,9 @@ void mesh::selectanynode(int newphysreg, int physregtoselectfrom)
 {
     if (physregtoselectfrom < 0)
     {
-        std::cout << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected a positive physical region number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     errorifloaded();

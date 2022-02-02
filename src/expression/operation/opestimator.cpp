@@ -19,8 +19,9 @@ std::vector<std::vector<densemat>> opestimator::interpolate(elementselector& ele
 {
     if (meshdeform != NULL)
     {
-        std::cout << "Error in 'opestimator' object: estimator cannot be computed on a deformed mesh" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opestimator' object: estimator cannot be computed on a deformed mesh" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     // Get the value from the universe if available and reuse is enabled:
@@ -58,8 +59,9 @@ std::vector<std::vector<densemat>> opestimator::interpolate(elementselector& ele
 
 densemat opestimator::multiharmonicinterpolate(int numtimeevals, elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)
 {
-    std::cout << "Error in 'opestimator' object: cannot perform a multiharmonic interpolation on the estimator" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'opestimator' object: cannot perform a multiharmonic interpolation on the estimator" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 std::shared_ptr<operation> opestimator::simplify(std::vector<int> disjregs)

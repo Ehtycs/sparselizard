@@ -18,8 +18,9 @@ void shape::errornullpointer(void)
         return;
     else
     {
-        std::cout << "Error in 'shape' object: cannot perform operation (shape is undefined)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: cannot perform operation (shape is undefined)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -34,8 +35,9 @@ shape::shape(std::string shapename, int physreg, std::vector<double> coords)
 {
     if (coords.size()%3 != 0)
     {
-        std::cout << "Error in 'shape' object: length of coordinate vector for shape " << shapename << " should be a multiple of three" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: length of coordinate vector for shape " << shapename << " should be a multiple of three" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     if (shapename == "point")
@@ -49,8 +51,11 @@ shape::shape(std::string shapename, int physreg, std::vector<double> coords)
         return;
     }
 
-    std::cout << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, std::vector<double> coords, int nummeshpts)
@@ -68,8 +73,11 @@ shape::shape(std::string shapename, int physreg, std::vector<double> coords, int
         return;
     }
 
-    std::cout << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, std::vector<double> coords, std::vector<int> nummeshpts)
@@ -87,8 +95,11 @@ shape::shape(std::string shapename, int physreg, std::vector<double> coords, std
         return;
     }
 
-    std::cout << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, std::vector<shape> subshapes, int nummeshpts)
@@ -107,8 +118,11 @@ shape::shape(std::string shapename, int physreg, std::vector<shape> subshapes, i
         return;
     }
 
-    std::cout << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, std::vector<shape> subshapes, std::vector<int> nummeshpts)
@@ -127,8 +141,11 @@ shape::shape(std::string shapename, int physreg, std::vector<shape> subshapes, s
         return;
     }
 
-    std::cout << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, std::vector<shape> subshapes)
@@ -152,16 +169,20 @@ shape::shape(std::string shapename, int physreg, std::vector<shape> subshapes)
         return;
     }
 
-    std::cout << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: shape " << shapename << " does not accept this constructor or is unknown (try lower case)" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, std::vector<double> centercoords, double radius, int nummeshpts)
 {
     if (centercoords.size() != 3)
     {
-        std::cout << "Error in 'shape' object: length of center point coordinate vector for shape " << shapename << " should be three" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: length of center point coordinate vector for shape " << shapename << " should be three" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     std::shared_ptr<rawshape> centerpoint = geotools::coordstopoints(centercoords)[0];
@@ -172,8 +193,11 @@ shape::shape(std::string shapename, int physreg, std::vector<double> centercoord
         return;
     }
 
-    std::cout << "Error in 'shape' object: trying to call the disk constructor for a " << shapename << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: trying to call the disk constructor for a " << shapename << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 shape::shape(std::string shapename, int physreg, shape centerpoint, double radius, int nummeshpts)
@@ -184,8 +208,11 @@ shape::shape(std::string shapename, int physreg, shape centerpoint, double radiu
         return;
     }
 
-    std::cout << "Error in 'shape' object: trying to call the disk constructor for a " << shapename << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'shape' object: trying to call the disk constructor for a " << shapename << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 void shape::setphysicalregion(int physreg)
@@ -205,8 +232,9 @@ void shape::move(expression u)
     errornullpointer();
     if (u.countcolumns() != 1 || u.countrows() > 3)
     {
-        std::cout << "Error in 'shape' object: unexpected argument size in 'move' (expected a column vector up to length 3)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: unexpected argument size in 'move' (expected a column vector up to length 3)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     u = u.resize(3,1);
     rawshapeptr->move(sl::compx(u), sl::compy(u), sl::compz(u));
@@ -236,13 +264,15 @@ shape shape::extrude(int physreg, double height, int numlayers, std::vector<doub
 
     if (numlayers < 2)
     {
-        std::cout << "Error in 'shape' object: cannot extrude with " << numlayers << " node layers (at least two are needed)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: cannot extrude with " << numlayers << " node layers (at least two are needed)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     if (extrudedirection.size() != 3)
     {
-        std::cout << "Error in 'shape' object: extrude direction should be a vector of length three" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: extrude direction should be a vector of length three" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     gentools::normvector(extrudedirection);
@@ -254,8 +284,9 @@ std::vector<shape> shape::extrude(std::vector<int> physreg, std::vector<double> 
 {
     if (physreg.size() != height.size() || physreg.size() != numlayers.size())
     {
-        std::cout << "Error in 'shape' object: extrude vector arguments should have the same size" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'shape' object: extrude vector arguments should have the same size" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
  
     gentools::normvector(extrudedirection);

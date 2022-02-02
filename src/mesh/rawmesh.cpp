@@ -135,12 +135,16 @@ void rawmesh::readfromfile(std::string tool, std::string source)
         }
         
         std::cout << "Error: file '" << source << "' cannot be read by the native mesh reader." << std::endl;
-        std::cout << "Use the GMSH or the petsc mesh reader instead or use the GMSH .msh or Nastran .nas format." << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Use the GMSH or the petsc mesh reader instead or use the GMSH .msh or Nastran .nas format." << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
-    std::cout << "Error: unknown mesh reader '" << tool << "'" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error: unknown mesh reader '" << tool << "'" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 void rawmesh::writetofile(std::string name)
@@ -149,8 +153,9 @@ void rawmesh::writetofile(std::string name)
         gmshinterface::writetofile(name, mynodes, myelements, myphysicalregions, mydisjointregions);
     else
     {
-        std::cout << "Error: file '" << name << "' has either no extension or it is not supported." << std::endl << "Currently supported: GMSH .msh" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error: file '" << name << "' has either no extension or it is not supported." << std::endl << "Currently supported: GMSH .msh" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -314,8 +319,9 @@ void rawmesh::load(std::string name, int globalgeometryskin, int numoverlaplayer
     // Make sure axisymmetry is valid for this mesh:    
     if (universe::isaxisymmetric && getmeshdimension() != 2)
     {
-        std::cout << "Error in 'mesh' object: axisymmetry is only allowed for 2D problems" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: axisymmetry is only allowed for 2D problems" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     mynumber = 0;
@@ -332,8 +338,9 @@ void rawmesh::load(bool mergeduplicates, std::vector<std::string> meshfiles, int
     int numfiles = meshfiles.size();
     if (numfiles == 0)
     {
-        std::cout << "Error in 'mesh' object: expected at least one mesh file to load" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: expected at least one mesh file to load" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     std::vector< std::vector<std::vector<shape>> > allshapes(numfiles, std::vector<std::vector<shape>>(0));
@@ -354,8 +361,9 @@ void rawmesh::load(bool mergeduplicates, std::vector<std::string> meshfiles, int
                 
             if (i > 0 && allshapes[i][meshdim].size() == 0 || i > 0 && d > meshdim && allshapes[i][d].size() > 0)
             {
-                std::cout << "Error in 'mesh' object: expected a " << meshdim << "D mesh in '" << meshfiles[i] << "'" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error in 'mesh' object: expected a " << meshdim << "D mesh in '" << meshfiles[i] << "'" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         
             for (int s = 0; s < curcount; s++)
@@ -404,8 +412,9 @@ void rawmesh::load(bool mergeduplicates, std::vector<std::string> meshfiles, int
     // Due to the shifting the bounds in regiondefiner will not be treated correctly:
     if (mergeduplicates == false && myregiondefiner.isanycoordinatedependentregiondefined())
     {
-        std::cout << "Error in 'rawmesh' object: cannot define the requested region during loading when combining meshes without merging duplicates" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawmesh' object: cannot define the requested region during loading when combining meshes without merging duplicates" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     load(flat, -1, -1, verbosity);
@@ -435,8 +444,9 @@ void rawmesh::load(std::vector<shape> inputshapes, int globalgeometryskin, int n
 
     if (inputshapes.size() == 0)
     {
-        std::cout << "Error in 'mesh' object: provided an empty vector of shapes" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: provided an empty vector of shapes" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     // Make sure all shapes have a valid physical region number:
@@ -444,8 +454,9 @@ void rawmesh::load(std::vector<shape> inputshapes, int globalgeometryskin, int n
     {
         if (inputshapes[i].getphysicalregion() <= 0)
         {
-            std::cout << "Error in 'mesh' object: physical region was undefined (negative or zero) for shape '" << inputshapes[i].getname() << "'" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'mesh' object: physical region was undefined (negative or zero) for shape '" << inputshapes[i].getname() << "'" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     
@@ -546,8 +557,9 @@ void rawmesh::load(std::vector<shape> inputshapes, int globalgeometryskin, int n
     // Make sure axisymmetry is valid for this mesh:    
     if (universe::isaxisymmetric && getmeshdimension() != 2)
     {
-        std::cout << "Error in 'mesh' object: axisymmetry is only allowed for 2D problems" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: axisymmetry is only allowed for 2D problems" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     mynumber = 0;
@@ -577,8 +589,9 @@ void rawmesh::split(int n)
 {
     if (n < 0)
     {
-        std::cout << "Error in 'mesh' object: number of splits cannot be negative" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: number of splits cannot be negative" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     mynumsplitrequested += n;
 }
@@ -624,8 +637,9 @@ void rawmesh::move(int physreg, expression u)
     int meshdim = getmeshdimension();
     if (u.countcolumns() != 1 || u.countrows() < meshdim || u.countrows() > 3)
     {
-        std::cout << "Error in 'rawmesh' object: in 'move' expected a " << meshdim << "x1 expression" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawmesh' object: in 'move' expected a " << meshdim << "x1 expression" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     std::vector<double>* coords = mynodes.getcoordinates();
@@ -644,8 +658,9 @@ void rawmesh::move(int physreg, expression u)
         
     if (not(u.isharmonicone(selecteddisjregs)))
     {
-        std::cout << "Error in 'rawmesh' object: the expression to move the mesh cannot be multiharmonic (only constant harmonic 1)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawmesh' object: the expression to move the mesh cannot be multiharmonic (only constant harmonic 1)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
         
     // Send the disjoint regions with same element type numbers together:
@@ -780,8 +795,9 @@ std::vector<int> rawmesh::getphysicalregionnumbers(int dim)
 {
     if (dim < -1 || dim > 3)
     {
-        std::cout << "Error in 'mesh' object: invalid input dimension '" << dim << "' in 'getphysicalregionnumbers'" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'mesh' object: invalid input dimension '" << dim << "' in 'getphysicalregionnumbers'" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     return myphysicalregions.getallnumbers(dim);
@@ -1724,8 +1740,9 @@ void rawmesh::fixoverlapcellordering(void)
         // Catch any mesh mismatch in the overlap:
         if (numfound != oobarys.size()/3)
         {
-            std::cout << "Error in 'rawmesh' object: could not match all cells across DDM overlap regions" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'rawmesh' object: could not match all cells across DDM overlap regions" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
 
         // Reorder the outer overlap cell list to match the neighbour inner overlap cell ordering:
@@ -1855,8 +1872,9 @@ void rawmesh::errorondisconnecteddisjointregion(void)
             
             std::vector<std::string> typnm = {"node", "line", "face", "volume"};
             std::cout << "Error in 'mesh' object: found at least one " << typnm[drdim] << " not connected to any " << typnm[dim] << std::endl;
-            std::cout << "The problematic " << typnm[drdim] << "s found have been written to 'info_not_connected.pos'" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "The problematic " << typnm[drdim] << "s found have been written to 'info_not_connected.pos'" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 }

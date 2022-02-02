@@ -37,8 +37,9 @@ int harmonic::getharmonicnumber(std::string input)
         
         return getharmonicnumber(freqindex, issine);
     }
-    std::cout << "Error in 'harmonic' namespace: '" << input << "' is not a valid harmonic name (correct form is cos0, sin1, cos1, sin2, cos2, ...)" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'harmonic' namespace: '" << input << "' is not a valid harmonic name (correct form is cos0, sin1, cos1, sin2, cos2, ...)" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 std::vector<std::pair<int,double>> harmonic::getproduct(int harm1, int harm2)
@@ -77,7 +78,7 @@ std::vector<std::pair<int,double>> harmonic::getproduct(int harm1, int harm2)
             return {std::make_pair(getharmonicnumber(std::abs(freq1+freq2), true),0.5)};
     }
     
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
 
 std::vector<std::pair<int,double>> harmonic::getproduct(int harm1, int harm2, int harm2timederivativeorder)

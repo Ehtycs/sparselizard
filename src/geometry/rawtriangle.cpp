@@ -5,14 +5,16 @@ rawtriangle::rawtriangle(int physreg, std::vector<std::shared_ptr<rawshape>> inp
 {
     if (inputpoints.size() != 3 || inputpoints[0]->getdimension() != 0 || inputpoints[1]->getdimension() != 0 || inputpoints[2]->getdimension() != 0)
     {
-        std::cout << "Error in 'rawtriangle' object: expected three points in the triangle definition" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawtriangle' object: expected three points in the triangle definition" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     if (nummeshpoints.size() != 3)
     {
-        std::cout << "Error in 'rawtriangle' object: expected a vector of length three to define the number of mesh nodes" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawtriangle' object: expected a vector of length three to define the number of mesh nodes" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     std::vector<std::shared_ptr<rawshape>> lns(3);
@@ -32,8 +34,9 @@ rawtriangle::rawtriangle(int physreg, std::vector<std::shared_ptr<rawshape>> inp
 {
     if (inputlines.size() != 3 || inputlines[0]->getdimension() != 1 || inputlines[1]->getdimension() != 1 || inputlines[2]->getdimension() != 1)
     {
-        std::cout << "Error in 'rawtriangle' object: expected three lines in the triangle definition" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawtriangle' object: expected three lines in the triangle definition" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     myphysicalregion = physreg;
@@ -135,7 +138,7 @@ void rawtriangle::mesh(void)
     if (nummeshpts[0] != nummeshpts[1] || nummeshpts[0] != nummeshpts[2])
     {
         std::cout << "Error in 'rawtriangle' object: the number of nodes on all edges should be equal" << std::endl;
-        abort(); 
+        throw std::runtime_error(""); 
     }
 
     int n = nummeshpts[0];

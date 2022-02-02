@@ -76,7 +76,7 @@ int hierarchicalformfunctioniterator::getformfunctionorder(void)
             return i;
     }
     
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
 
 int hierarchicalformfunctioniterator::getassociatedelementtype(void)
@@ -101,7 +101,7 @@ int hierarchicalformfunctioniterator::getassociatedelementtype(void)
             return myelementtypenumber;
     }
     
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
 
 void hierarchicalformfunctioniterator::print(void)

@@ -15,8 +15,9 @@ void opdof::setspacederivative(int whichderivative)
     // Make sure a single space derivative is applied.
     if (spacederivative != 0)
     {
-        std::cout << "Error in 'opdof' object: cannot apply more than one space derivative to the dof" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opdof' object: cannot apply more than one space derivative to the dof" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     spacederivative = whichderivative;
 }
@@ -27,8 +28,9 @@ void opdof::increasetimederivativeorder(int amount)
 
     if (not(myfield->ismultiharmonic()) && timederivativeorder > 2)
     {
-        std::cout << "Error in 'opdof' object: time derivative order can exceed 2 only for multiharmonic fields" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opdof' object: time derivative order can exceed 2 only for multiharmonic fields" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -40,8 +42,9 @@ bool opdof::isharmonicone(std::vector<int> disjregs)
 
 bool opdof::isvalueorientationdependent(std::vector<int> disjregs)
 {
-    std::cout << "Error in 'opdof' object: 'isvalueorientationdependent' was called (this is not expected)" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'opdof' object: 'isvalueorientationdependent' was called (this is not expected)" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 std::shared_ptr<operation> opdof::copy(void)
@@ -89,8 +92,9 @@ void opdof::setoncontext(oncontext& cntxt)
 {
     if (myphysicalregion != -1 && cntxt.isdefined())
     {
-        std::cout << "Error in 'opdof' object: restricting the dof to a region is not allowed in the 'on' context" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opdof' object: restricting the dof to a region is not allowed in the 'on' context" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     myoncontext = {cntxt};

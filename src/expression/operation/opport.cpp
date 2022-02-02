@@ -12,21 +12,24 @@ void opport::increasetimederivativeorder(int amount)
 
     if (timederivativeorder > 2)
     {
-        std::cout << "Error in 'opport' object: time derivative order cannot exceed 2" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opport' object: time derivative order cannot exceed 2" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
 std::vector<std::vector<densemat>> opport::interpolate(elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)
 {
-    std::cout << "Error in 'opport' object: cannot interpolate a port" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'opport' object: cannot interpolate a port" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 densemat opport::multiharmonicinterpolate(int numtimeevals, elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)
 {
-    std::cout << "Error in 'opport' object: cannot interpolate a port" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'opport' object: cannot interpolate a port" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 std::shared_ptr<rawport> opport::getportpointer(void)

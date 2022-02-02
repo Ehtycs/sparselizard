@@ -68,8 +68,9 @@ void dofmanager::addtostructure(std::shared_ptr<rawfield> fieldtoadd, std::vecto
         {
             std::cout << "Error in 'dofmanager' object: ";
             fieldtoadd->print();
-            std::cout << " order was changed and does not match dof structure anymore" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << " order was changed and does not match dof structure anymore" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     
@@ -185,8 +186,9 @@ void dofmanager::addtostructure(std::shared_ptr<rawport> porttoadd)
             {
                 std::cout << "Error in 'dofmanager' object: ";
                 associatedfield->print();
-                std::cout << " order was changed and does not match dof structure anymore" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << " order was changed and does not match dof structure anymore" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         }
 
@@ -237,15 +239,17 @@ void dofmanager::selectfield(std::shared_ptr<rawfield> selectedfield)
     }
     if (selectedfieldnumber == -1)
     {
-        std::cout << "Error in 'dofmanager' object: selected field is not defined in the dof manager" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dofmanager' object: selected field is not defined in the dof manager" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     if (not(issynchronizing) && myfields[selectedfieldnumber]->getinterpolationorders() != myfieldorders[selectedfieldnumber])
     {
         std::cout << "Error in 'dofmanager' object: ";
         myfields[selectedfieldnumber]->print();
-        std::cout << " order was changed and does not match dof structure anymore" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << " order was changed and does not match dof structure anymore" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -294,8 +298,9 @@ int dofmanager::getaddress(rawport* prt)
         std::string pn = prt->getname();
         if (pn.size() > 0)
             pn = "'"+pn+"' ";
-        std::cout << "Error in 'dofmanager' object: requested port " << pn << "could not be found in the dof structure" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dofmanager' object: requested port " << pn << "could not be found in the dof structure" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 

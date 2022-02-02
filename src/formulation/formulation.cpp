@@ -5,8 +5,9 @@ formulation::formulation(void)
 {
     if (universe::myrawmesh == NULL)
     {
-        std::cout << "Error in 'formulation' object: cannot define a formulation before the mesh is loaded" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: cannot define a formulation before the mesh is loaded" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     mydofmanager = std::shared_ptr<dofmanager>(new dofmanager);
@@ -16,13 +17,15 @@ formulation& formulation::operator+=(expression expr)
 {
     if (isstructurelocked)
     {
-        std::cout << "Error in 'formulation' object: cannot add port relations after a generation step" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: cannot add port relations after a generation step" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     if (mycontributions[0].size() != 0 || mycontributions[1].size() != 0 || mycontributions[2].size() != 0 || mycontributions[3].size() != 0)
     {
-        std::cout << "Error in 'formulation' object: port relations must be added before integral terms" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: port relations must be added before integral terms" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     // Add the port relation:
@@ -49,8 +52,9 @@ formulation& formulation::operator+=(integration integrationobject)
 {
     if (isstructurelocked)
     {
-        std::cout << "Error in 'formulation' object: cannot add contributions after a generation step" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: cannot add contributions after a generation step" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     int integrationphysreg = integrationobject.getphysicalregion();
@@ -179,8 +183,9 @@ void formulation::generate(int m, int contributionnumber)
     
     if (contributionnumber < 0)
     {
-        std::cout << "Error in 'formulation' object: cannot generate a negative contribution number" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: cannot generate a negative contribution number" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     // Make sure the contribution number exists:
@@ -284,8 +289,9 @@ densemat formulation::getportrelationrhs(void)
 
     if (expectednumrelations != actualnumrelations)
     {
-        std::cout << "Error in 'formulation' object: expected " << expectednumrelations << " port relations to match the number of unknown ports provided but found " << actualnumrelations << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: expected " << expectednumrelations << " port relations to match the number of unknown ports provided but found " << actualnumrelations << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     return rhsvals;
@@ -322,8 +328,9 @@ std::tuple<indexmat, indexmat, densemat> formulation::getportrelations(int KCM)
     
     if (expectednumrelations != actualnumrelations)
     {
-        std::cout << "Error in 'formulation' object: expected " << expectednumrelations << " port relations to match the number of unknown ports provided but found " << actualnumrelations << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'formulation' object: expected " << expectednumrelations << " port relations to match the number of unknown ports provided but found " << actualnumrelations << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     // Concatenate all:
@@ -428,7 +435,7 @@ void formulation::solve(std::string soltype, bool diagscaling, std::vector<int> 
     if (isdampingmatrixdefined() || ismassmatrixdefined())
     {
         std::cout << "Error in 'formulation' object: cannot solve with a damping/mass matrix (use a time resolution algorithm)" << std::endl;
-        abort();  
+        throw std::runtime_error("");  
     }
     
     // Remove leftovers (if any):
@@ -498,7 +505,7 @@ std::vector<double> formulation::allsolve(double relrestol, int maxnumit, std::s
     if (isdampingmatrixdefined() || ismassmatrixdefined())
     {
         std::cout << "Error in 'formulation' object: cannot solve with a damping/mass matrix (use a time resolution algorithm)" << std::endl;
-        abort();  
+        throw std::runtime_error("");  
     }
     
     wallclock clktot;
@@ -515,7 +522,7 @@ std::vector<double> formulation::allsolve(double relrestol, int maxnumit, std::s
     if (universe::getrawmesh()->getdtracker()->isoverlap() == false)
     {
         std::cout << "Error in 'formulation' object: cannot solve using Dirichlet interface conditions for no-overlap DDM (does not converge)" << std::endl;
-        abort();  
+        throw std::runtime_error("");  
     }
     
     universe::ddmformuls = {*this};
@@ -667,7 +674,7 @@ std::vector<double> formulation::allsolve(std::vector<int> formulterms, std::vec
     if (isdampingmatrixdefined() || ismassmatrixdefined())
     {
         std::cout << "Error in 'formulation' object: cannot solve with a damping/mass matrix (use a time resolution algorithm)" << std::endl;
-        abort();  
+        throw std::runtime_error("");  
     }
     
     wallclock clktot;

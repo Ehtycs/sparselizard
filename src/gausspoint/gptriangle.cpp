@@ -2700,8 +2700,11 @@ void gptriangle::set(int integrationorder, std::vector<double>& coordinates, std
         
         default:
     
-            std::cout << "Error in 'gptriangle' namespace: trying to get Gauss points to integrate order " << integrationorder << " which is undefined (too high)" << std::endl;
-            abort();
+            std::stringstream tmp;
+    
+            tmp  << "Error in 'gptriangle' namespace: trying to get Gauss points to integrate order " << integrationorder << " which is undefined (too high)" << std::endl;
+    
+            throw std::runtime_error(tmp.str());
     }
     
 }

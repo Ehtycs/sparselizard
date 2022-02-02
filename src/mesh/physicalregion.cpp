@@ -24,8 +24,9 @@ void physicalregion::addelement(int elementtypenumber, int elementnumber)
     {
         std::cout << "Error in 'physicalregion' object: trying to add a " << myelement.getelementdimension() << "D element to physical region " << myphysicalregionnumber << " which has " << myelementdimension << "D elements." << std::endl;
         std::cout << "There can only be a single element dimension per physical region." << std::endl;
-        std::cout << "SOLVE THIS with 'setphysicalregionshift' (shifts the physical region numbers in each dimension)." << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "SOLVE THIS with 'setphysicalregionshift' (shifts the physical region numbers in each dimension)." << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     elementlist[elementtypenumber].push_back(elementnumber);

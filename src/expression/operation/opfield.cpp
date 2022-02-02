@@ -6,8 +6,9 @@ void opfield::setspacederivative(int whichderivative)
     // Make sure a single space derivative is applied.
     if (spacederivative != 0 || kietaphiderivative != 0)
     {
-        std::cout << "Error in 'opfield' object: cannot apply more than one space derivative to a field" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opfield' object: cannot apply more than one space derivative to a field" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     spacederivative = whichderivative;
 }
@@ -17,8 +18,9 @@ void opfield::setkietaphiderivative(int whichderivative)
     // Make sure a single space derivative is applied.
     if (spacederivative != 0 || kietaphiderivative != 0)
     {
-        std::cout << "Error in 'opfield' object: cannot apply more than one space derivative to a field" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opfield' object: cannot apply more than one space derivative to a field" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     kietaphiderivative = whichderivative;
 }
@@ -29,8 +31,9 @@ void opfield::increasetimederivativeorder(int amount)
 
     if (not(myfield->ismultiharmonic()) && timederivativeorder > 2)
     {
-        std::cout << "Error in 'opfield' object: time derivative order can exceed 2 only for multiharmonic fields" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opfield' object: time derivative order can exceed 2 only for multiharmonic fields" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -49,7 +52,7 @@ std::vector<std::vector<densemat>> opfield::interpolate(int kietaphiderivative, 
         std::cout << "Error in 'opfield' object: expression provided for mesh deformation is invalid" << std::endl;
         std::cout << "Operation was:" << std::endl;
         this->print();
-        abort();
+        throw std::runtime_error("");
     }
 }
 
@@ -73,8 +76,9 @@ std::vector<std::vector<densemat>> opfield::interpolate(elementselector& elemsel
             std::vector<std::string> messtr = {"","dt","dtdt"};
             std::cout << "Error in 'opfield' object: the " << messtr[timederivativeorder] << "(";
             myfield->print();
-            std::cout << ") value was not made available by a time resolution or by a call to 'settimederivative'" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << ") value was not made available by a time resolution or by a call to 'settimederivative'" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
         cmbkp = myfield->harmonic(1)->resetcoefmanager();
         // Set the field value to the field time derivative value on all regions:
@@ -199,8 +203,9 @@ std::vector<double> opfield::evaluate(std::vector<double>& xcoords, std::vector<
     std::string mytype = myfield->gettypename();
     if (timederivativeorder != 0 || spacederivative != 0 || kietaphiderivative != 0)
     {
-        std::cout << "Error in 'opfield' object: evaluate does not allow derivatives" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opfield' object: evaluate does not allow derivatives" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     if (mytype == "x")
         return xcoords;
@@ -209,8 +214,11 @@ std::vector<double> opfield::evaluate(std::vector<double>& xcoords, std::vector<
     if (mytype == "z")
         return zcoords;
 
-    std::cout << "Error in 'opfield' object: evaluate only allows the x, y and z field" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'opfield' object: evaluate only allows the x, y and z field" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 void opfield::print(void)

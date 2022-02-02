@@ -22,8 +22,11 @@ std::vector<std::vector<densemat>> opasin::interpolate(elementselector& elemsele
         return argmat;
     }
 
-    std::cout << "Error in 'opasin' object: without FFT asin() can only be computed for constant (harmonic 1) operations" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'opasin' object: without FFT asin() can only be computed for constant (harmonic 1) operations" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 densemat opasin::multiharmonicinterpolate(int numtimeevals, elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)

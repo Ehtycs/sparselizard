@@ -7,8 +7,9 @@ rawunion::rawunion(int physreg, std::vector<std::shared_ptr<rawshape>> input)
     
     if (input.size() == 0)
     {
-        std::cout << "Error in 'rawunion' object: expected at least one shape to unite" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawunion' object: expected at least one shape to unite" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     int mydimension = input[0]->getdimension();
@@ -16,8 +17,9 @@ rawunion::rawunion(int physreg, std::vector<std::shared_ptr<rawshape>> input)
     {
         if (input[i]->getdimension() != mydimension)
         {
-            std::cout << "Error in 'rawunion' object: all shapes must have the same dimension" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'rawunion' object: all shapes must have the same dimension" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 

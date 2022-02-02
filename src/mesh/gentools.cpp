@@ -231,7 +231,7 @@ bool sortfun(const std::tuple<int,int,double>& elem1, const std::tuple<int,int,d
     if (std::get<1>(elem1) >= std::get<1>(elem2))
         return false;
         
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
     
 void gentools::tuple3sort(std::vector<std::tuple<int,int,double>>& tosort)
@@ -723,7 +723,7 @@ int gentools::findinterval(double val, std::vector<double>& tics)
             return i;
     }
     
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
 
 std::vector<double> gentools::getintervaltics(double minval, double maxval, int numintervals)
@@ -854,8 +854,9 @@ double gentools::exactinttodouble(long long int num)
         return (double)num;
     else
     {
-        std::cout << "Error in 'gentools' namespace: integer " << num << " is too large to be exactly represented in double format" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'gentools' namespace: integer " << num << " is too large to be exactly represented in double format" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1319,8 +1320,9 @@ std::vector<double> gentools::arnoldi(densemat (*mymatmult)(densemat), densemat 
     
     if (q.countrows() != n || q.countcolumns() != 1)
     {
-        std::cout << "Error in 'gentools' namespace: in function arnoldi the matrix product function call returned a densemat of wrong size on rank " << slmpi::getrank() << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'gentools' namespace: in function arnoldi the matrix product function call returned a densemat of wrong size on rank " << slmpi::getrank() << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     // Standard Gramm-Schmidt orthogonalization:
@@ -2025,8 +2027,9 @@ void gentools::inoutorient(int startnode, std::vector<int>& edgestatus, bool iso
 
                 if (isoutward != isedgeoutward)
                 {
-                    std::cout << "Error in 'gentools' namespace: reorienting the edges to have them all pointing either inwards or outwards at every node is impossible on the requested physical region for the mesh provided" << std::endl;
-                    abort();
+                    std::stringstream tmp;
+                    tmp  << "Error in 'gentools' namespace: reorienting the edges to have them all pointing either inwards or outwards at every node is impossible on the requested physical region for the mesh provided" << std::endl;
+                    throw std::runtime_error(tmp.str());
                 }
             }
         }

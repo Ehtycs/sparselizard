@@ -46,8 +46,9 @@ petscmesh::petscmesh(std::string filename)
     std::cout << "Supported mesh formats are ";
     for (int i = 0; i < supportedextensions.size()-1; i++)
         std::cout << "'" << supportedextensions[i] << "', ";
-    std::cout << "'" << supportedextensions[supportedextensions.size()-1] << "'." << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "'" << supportedextensions[supportedextensions.size()-1] << "'." << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 petscmesh::~petscmesh(void)

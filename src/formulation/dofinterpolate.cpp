@@ -244,8 +244,9 @@ void dofinterpolate::eval(void)
             if (isfound[i] == false)
             {
                 std::cout << "Error in 'dofinterpolate' object: trying to interpolate at a point outside of region " << onphysreg << " or interpolation algorithm failed to converge" << std::endl;
-                std::cout << "Error was at (x,y,z) = (" << myxyzcoords[3*i+0] << ", " << myxyzcoords[3*i+1] << ", " << myxyzcoords[3*i+2] << ")" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error was at (x,y,z) = (" << myxyzcoords[3*i+0] << ", " << myxyzcoords[3*i+1] << ", " << myxyzcoords[3*i+2] << ")" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         }
     }

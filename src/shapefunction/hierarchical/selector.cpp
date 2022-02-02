@@ -83,6 +83,7 @@ std::shared_ptr<hierarchicalformfunction> selector::select(int elementtypenumber
     
     
     // If we arrive here it means the form function type name was incorrect:
-    std::cout << "Error in 'selector' namespace: unknown form function type name '" << formfunctiontypename << "'" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'selector' namespace: unknown form function type name '" << formfunctiontypename << "'" << std::endl;
+    throw std::runtime_error(tmp.str());
 }

@@ -13,8 +13,9 @@ void dtracker::errorundefined(void)
 {
     if (mynumoverlaplayers < 0)
     {
-        std::cout << "Error in 'dtracker' object: DDM context has not been provided" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: DDM context has not been provided" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -22,8 +23,9 @@ dtracker::dtracker(std::shared_ptr<rawmesh> rm, int globalgeometryskin, int numo
 {
     if (rm == NULL)
     {
-        std::cout << "Error in 'dtracker' object: cannot provide a NULL rawmesh pointer" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide a NULL rawmesh pointer" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     physicalregions* prs = rm->getphysicalregions();
@@ -35,8 +37,9 @@ dtracker::dtracker(std::shared_ptr<rawmesh> rm, int globalgeometryskin, int numo
     
     if (globalgeometryskin >= 0 && prs->get(globalgeometryskin)->getelementdimension() != meshdim-1)
     {
-        std::cout << "Error in 'dtracker' object: expected " << meshdim-1 << "D elements in the global geometry skin region but found " << prs->get(globalgeometryskin)->getelementdimension() << "D elements (use -1 if empty)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: expected " << meshdim-1 << "D elements in the global geometry skin region but found " << prs->get(globalgeometryskin)->getelementdimension() << "D elements (use -1 if empty)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     myrawmesh = rm;
@@ -51,8 +54,9 @@ std::shared_ptr<rawmesh> dtracker::getrawmesh(void)
         return myrawmesh.lock();
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot get rawmesh object (weak pointer is expired)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot get rawmesh object (weak pointer is expired)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -67,8 +71,9 @@ bool dtracker::isoverlap(void)
         return (mynumoverlaplayers > 0);
     else
     {
-        std::cout << "Error in 'dtracker' object: number of overlap layers has not been defined (use 0 for no-overlap)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: number of overlap layers has not been defined (use 0 for no-overlap)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -419,8 +424,9 @@ bool dtracker::discovercrossinterfaces(std::vector<int>& interfacenodelist, std:
     // All nodes and edges must have been found or something went wrong:
     if (nnf != posnodefound.size() || nef != posedgefound.size())
     {
-        std::cout << "Error in 'dtracker' object: algorithm to detect cross-interfaces did not succeed (at least one node or edge barycenter was not matched on a target neighbour)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: algorithm to detect cross-interfaces did not succeed (at least one node or edge barycenter was not matched on a target neighbour)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     // Update 'isnodeinneighbours' and 'isedgeinneighbours':
@@ -610,8 +616,9 @@ void dtracker::exchangeoverlaps(void)
     {
         if (reclens[11*n+10] != curvatureorder)
         {
-            std::cout << "Error in 'dtracker' object: expected the same curvature order on all mesh parts" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'dtracker' object: expected the same curvature order on all mesh parts" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 
@@ -835,8 +842,9 @@ void dtracker::exchangephysicalregions(void)
                     {
                         if (isddmpr[curpreg])
                         {
-                            std::cout << "Error in 'dtracker' object: cannot merge physical region " << curpreg << " from the inner overlap of rank " << myneighbours[n] << " into the outer overlap of rank " << rank << " (it is a DDM owned region on the latter rank)" << std::endl;
-                            abort();
+                            std::stringstream tmp;
+                            tmp  << "Error in 'dtracker' object: cannot merge physical region " << curpreg << " from the inner overlap of rank " << myneighbours[n] << " into the outer overlap of rank " << rank << " (it is a DDM owned region on the latter rank)" << std::endl;
+                            throw std::runtime_error(tmp.str());
                         }
                         
                         allprs[curpreg] = prs->get(curpreg);
@@ -1141,8 +1149,9 @@ void dtracker::mapnooverlapinterfaces(void)
             int numfound = gentools::findcoordinates(targetbarys, recbarys, posfounds[n][i]);
             if (numfound != num)
             {
-                std::cout << "Error in 'dtracker' object: no-overlap mapping failed because some interface elements could not be matched" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error in 'dtracker' object: no-overlap mapping failed because some interface elements could not be matched" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         }
     }
@@ -1621,8 +1630,9 @@ void dtracker::setconnectivity(std::vector<int>& neighbours, std::vector<int>& n
 
     if (3*neighbours.size() != nooverlapinterfaces.size())
     {
-        std::cout << "Error in 'dtracker' object: expected a number of no-overlap interface regions equal to 3 x number of neighbours (one region per interface element dimension, -1 if none)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: expected a number of no-overlap interface regions equal to 3 x number of neighbours (one region per interface element dimension, -1 if none)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     // Make sure there is no duplicate and not the rank itself:
@@ -1647,13 +1657,15 @@ void dtracker::setconnectivity(std::vector<int>& neighbours, std::vector<int>& n
                     
                     if (elemdim >= meshdim)
                     {
-                        std::cout << "Error in 'dtracker' object: provided an interface physical region with " << elemdim << "D elements (this is not an interface)" << std::endl;
-                        abort();
+                        std::stringstream tmp;
+                        tmp  << "Error in 'dtracker' object: provided an interface physical region with " << elemdim << "D elements (this is not an interface)" << std::endl;
+                        throw std::runtime_error(tmp.str());
                     }
                     if (elemdim != d)
                     {
-                        std::cout << "Error in 'dtracker' object: expected a physical region with " << d << "D elements at index 3*" << i << "+" << d << std::endl;
-                        abort();
+                        std::stringstream tmp;
+                        tmp  << "Error in 'dtracker' object: expected a physical region with " << d << "D elements at index 3*" << i << "+" << d << std::endl;
+                        throw std::runtime_error(tmp.str());
                     }
                     
                     mynooverlapinterfaces[3*n+d] = ci;
@@ -1664,8 +1676,9 @@ void dtracker::setconnectivity(std::vector<int>& neighbours, std::vector<int>& n
         }
         else
         {
-            std::cout << "Error in 'dtracker' object: neighbours provided must be unique numbers between 0 and " << numranks << " and cannot include the domain rank itself" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'dtracker' object: neighbours provided must be unique numbers between 0 and " << numranks << " and cannot include the domain rank itself" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     
@@ -1741,8 +1754,9 @@ void dtracker::discoverconnectivity(int numtrialelements, int verbosity)
             
         if (allnumelementsininterface == allnei)
         {
-            std::cout << "Error in 'dtracker' object: connectivity discovery algorithm failed because some interface elements could not be found on any other domain" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'dtracker' object: connectivity discovery algorithm failed because some interface elements could not be found on any other domain" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
         allnei = allnumelementsininterface;
         
@@ -1860,8 +1874,9 @@ void dtracker::discoverconnectivity(int numtrialelements, int verbosity)
         {
             if (r == rank)
             {
-                std::cout << "Error in 'dtracker' object: rank " << r << " is a neighbour of itself (this is unexpected)" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error in 'dtracker' object: rank " << r << " is a neighbour of itself (this is unexpected)" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         
             myneighbours.push_back(r);
@@ -1923,8 +1938,9 @@ int dtracker::getneighbour(int neighbourindex)
         return myneighbours[neighbourindex];
     else
     {
-        std::cout << "Error in 'dtracker' object: asked for a neighbour at an index larger than the number of neighbours" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: asked for a neighbour at an index larger than the number of neighbours" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1934,8 +1950,9 @@ bool dtracker::isneighbour(int neighbour)
         return myisneighbour[neighbour];
     else
     {
-        std::cout << "Error in 'dtracker' object: asked if rank " << neighbour << " is a neighbour of rank " << slmpi::getrank() << " but there are only " << slmpi::count() << " ranks in total" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: asked if rank " << neighbour << " is a neighbour of rank " << slmpi::getrank() << " but there are only " << slmpi::count() << " ranks in total" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1945,8 +1962,9 @@ int dtracker::getnooverlapinterface(int neighbour, int elementdimension)
         return mynooverlapinterfaces[3*neighbour+elementdimension];
     else
     {
-        std::cout << "Error in 'dtracker' object: requested on rank " << slmpi::getrank() << " the " << elementdimension << "D no-overlap interface to neighbour rank " << neighbour << " but there are only " << slmpi::count() << " ranks in total" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: requested on rank " << slmpi::getrank() << " the " << elementdimension << "D no-overlap interface to neighbour rank " << neighbour << " but there are only " << slmpi::count() << " ranks in total" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1956,8 +1974,9 @@ int dtracker::getinneroverlapinterface(int neighbour, int elementdimension)
         return myinneroverlapinterfaces[3*neighbour+elementdimension];
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested inner overlap interface region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested inner overlap interface region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1967,8 +1986,9 @@ int dtracker::getouteroverlapinterface(int neighbour, int elementdimension)
         return myouteroverlapinterfaces[3*neighbour+elementdimension];
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested outer overlap interface region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested outer overlap interface region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1978,8 +1998,9 @@ int dtracker::getinneroverlap(int neighbour)
         return myinneroverlaps[neighbour];
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested inner overlap region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested inner overlap region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -1989,8 +2010,9 @@ int dtracker::getouteroverlap(int neighbour)
         return myouteroverlaps[neighbour];
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested outer overlap region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested outer overlap region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -2000,8 +2022,9 @@ int dtracker::getinneroverlapskin(int neighbour)
         return myinneroverlapskins[neighbour];
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested inner overlap skin region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested inner overlap skin region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -2011,8 +2034,9 @@ int dtracker::getouteroverlapskin(int neighbour)
         return myouteroverlapskins[neighbour];
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested outer overlap skin region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested outer overlap skin region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -2031,8 +2055,9 @@ std::vector<int> dtracker::getnooverlapinterface(int neighbour)
     }
     else
     {
-        std::cout << "Error in 'dtracker' object: requested on rank " << slmpi::getrank() << " the no-overlap interface to neighbour rank " << neighbour << " but there are only " << slmpi::count() << " ranks in total" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: requested on rank " << slmpi::getrank() << " the no-overlap interface to neighbour rank " << neighbour << " but there are only " << slmpi::count() << " ranks in total" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -2051,8 +2076,9 @@ std::vector<int> dtracker::getinneroverlapinterface(int neighbour)
     }
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested inner overlap interface region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested inner overlap interface region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -2071,8 +2097,9 @@ std::vector<int> dtracker::getouteroverlapinterface(int neighbour)
     }
     else
     {
-        std::cout << "Error in 'dtracker' object: cannot provide the requested outer overlap interface region" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'dtracker' object: cannot provide the requested outer overlap interface region" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -2292,7 +2319,8 @@ void dtracker::writeinterfaces(std::string filename)
     }
     
     std::cout << "Error in 'dtracker' object: cannot write to file '" << filename << "'." << std::endl;
-    std::cout << "Supported output formats are .vtk (ParaView), .vtu (ParaView) and .pos (GMSH)." << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Supported output formats are .vtk (ParaView), .vtu (ParaView) and .pos (GMSH)." << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 

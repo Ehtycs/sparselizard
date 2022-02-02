@@ -5,14 +5,16 @@
 #ifndef HAVE_GMSH
 void gmshinterface::readfromapi(nodes& mynodes, elements& myelements, physicalregions& myphysicalregions)
 {    
-    std::cout << "Error in 'gmshinterface' namespace: GMSH API is not available" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'gmshinterface' namespace: GMSH API is not available" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 
 void gmshinterface::readwithapi(std::string name, nodes& mynodes, elements& myelements, physicalregions& myphysicalregions)
 {
-    std::cout << "Error in 'gmshinterface' namespace: GMSH API is not available" << std::endl;
-    abort();
+    std::stringstream tmp;
+    tmp  << "Error in 'gmshinterface' namespace: GMSH API is not available" << std::endl;
+    throw std::runtime_error(tmp.str());
 }
 #endif
 #ifdef HAVE_GMSH
@@ -28,8 +30,9 @@ void gmshinterface::readfromapi(nodes& mynodes, elements& myelements, physicalre
 
     if (nodeTags.size() == 0)
     {
-        std::cout << "Error in 'gmshinterface' namespace: no mesh node found in mesh loaded from gmsh api" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'gmshinterface' namespace: no mesh node found in mesh loaded from gmsh api" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     int maxnodetag = *std::max_element(nodeTags.begin(), nodeTags.end());
@@ -53,8 +56,9 @@ void gmshinterface::readfromapi(nodes& mynodes, elements& myelements, physicalre
     int numphysregs = dimTags.size();
     if (numphysregs == 0)
     {
-        std::cout << "Error in 'gmshinterface' namespace: no physical region found in mesh loaded from gmsh api" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'gmshinterface' namespace: no physical region found in mesh loaded from gmsh api" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     std::vector<int> allphysregsdims(numphysregs);
     std::vector<int> allphysregs(numphysregs);
@@ -149,8 +153,9 @@ void gmshinterface::readfromfile(std::string name, nodes& mynodes, elements& mye
         if (formatversion >= 4)
         {
             std::cout << "Error in 'gmshinterface': GMSH format " << formatversion << " is not supported in the native mesh reader." << std::endl;
-            std::cout << "Use the GMSH API, the petsc mesh reader or export as GMSH 2 format." << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Use the GMSH API, the petsc mesh reader or export as GMSH 2 format." << std::endl;
+            throw std::runtime_error(tmp.str());
         }
 
         // Move to the node section and read the number of nodes:
@@ -258,8 +263,9 @@ void gmshinterface::readfromfile(std::string name, nodes& mynodes, elements& mye
     }
     else 
     {
-        std::cout << "Unable to open file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to open file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -346,8 +352,9 @@ void gmshinterface::writetofile(std::string name, nodes& mynodes, elements& myel
     }
     else 
     {
-        std::cout << "Unable to write to file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to write to file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -421,8 +428,9 @@ void gmshinterface::openview(std::string name, std::string viewname, double time
     }
     else 
     {
-        std::cout << "Unable to write to file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to write to file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -465,8 +473,9 @@ void gmshinterface::appendtoview(std::string name, int elementtypenumber, densem
     }
     else 
     {
-        std::cout << "Unable to write to file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to write to file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -510,8 +519,9 @@ void gmshinterface::appendtoview(std::string name, int elementtypenumber, densem
     }
     else 
     {
-        std::cout << "Unable to write to file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to write to file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -583,8 +593,9 @@ void gmshinterface::writeinterpolationscheme(std::string name, std::vector<std::
     }
     else 
     {
-        std::cout << "Unable to write to file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to write to file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -601,8 +612,9 @@ void gmshinterface::closeview(std::string name)
     }
     else 
     {
-        std::cout << "Unable to write to file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to write to file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -674,8 +686,9 @@ int gmshinterface::convertgmshelementtypenumber(int gmshtypenumber)
                 return 20;
                 
             default:
-                std::cout << "Error in 'gmshinterface' namespace: trying to use a GMSH element (" << gmshtypenumber << ") that is undefined in this code." << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error in 'gmshinterface' namespace: trying to use a GMSH element (" << gmshtypenumber << ") that is undefined in this code." << std::endl;
+                throw std::runtime_error(tmp.str());
         }
     }
 }
@@ -748,8 +761,9 @@ int gmshinterface::converttogmshelementtypenumber(int ourtypenumber)
                 return 90;
                 
             default:
-                std::cout << "Error in 'gmshinterface' namespace: trying to use a GMSH element that is undefined in this code." << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error in 'gmshinterface' namespace: trying to use a GMSH element that is undefined in this code." << std::endl;
+                throw std::runtime_error(tmp.str());
         }
     }
 }
@@ -787,6 +801,6 @@ char gmshinterface::getelementidentifierinposformat(int ourtypenumber)
             return 'Y';
     }
     
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
 

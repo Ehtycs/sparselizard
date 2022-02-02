@@ -5,14 +5,16 @@ rawarc::rawarc(int physreg, std::vector<std::shared_ptr<rawshape>> inputpoints, 
 {
     if (inputpoints.size() != 3 || inputpoints[0]->getdimension() != 0 || inputpoints[1]->getdimension() != 0 || inputpoints[2]->getdimension() != 0)
     {
-        std::cout << "Error in 'rawarc' object: expected three points in the arc definition (start, end, center)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawarc' object: expected three points in the arc definition (start, end, center)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     if (nummeshpoints < 2)
     {
-        std::cout << "Error in 'rawarc' object: expected at least two mesh nodes in the arc" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawarc' object: expected at least two mesh nodes in the arc" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     myphysicalregion = physreg;
@@ -130,8 +132,9 @@ void rawarc::mesh(void)
 
     if (radius1 == 0.0 || std::abs((radius1-radius2)/radius1) > 1e-10)
     {
-        std::cout << "Error in 'rawarc' object: rawpoints 1 and 2 provided for arc should be on a circle with center rawpoint 3" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'rawarc' object: rawpoints 1 and 2 provided for arc should be on a circle with center rawpoint 3" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     double radius = radius1;
 

@@ -265,8 +265,9 @@ void physicalregions::errorundefined(std::vector<int> physregs)
     {
         if (getindex(physregs[i]) == -1)
         {
-            std::cout << "Error in 'physicalregions' object: physical region number " << physregs[i] << " is not defined" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'physicalregions' object: physical region number " << physregs[i] << " is not defined" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 }
@@ -283,8 +284,9 @@ void physicalregions::errornotsamedim(std::vector<int> physregs)
         int curdim = get(physregs[i])->getelementdimension();
         if (dim != curdim)
         {
-            std::cout << "Error in 'physicalregions' object: expected physical regions of same dimension" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'physicalregions' object: expected physical regions of same dimension" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
 }

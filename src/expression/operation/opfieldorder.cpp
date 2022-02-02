@@ -22,8 +22,9 @@ std::vector<std::vector<densemat>> opfieldorder::interpolate(elementselector& el
     {
         if (myfields[i]->getinterpolationorders() != myfields[0]->getinterpolationorders())
         {
-            std::cout << "Error in 'opfieldorder' object: this object expects the same interpolation order for all subfields" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'opfieldorder' object: this object expects the same interpolation order for all subfields" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     

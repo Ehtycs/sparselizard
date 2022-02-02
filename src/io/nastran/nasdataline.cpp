@@ -18,7 +18,7 @@ std::vector<int> nasdataline::translateelementname(std::string elemname)
         
     std::cout << "Error in 'nasdataline': unknown or unsupported Nastran element type '" << elemname << "'." << std::endl;
     std::cout << "Curved elements not supported in .nas reader (save as linear elements in .nas or use GMSH 2 ASCII .msh format for curved elements)." << std::endl;
-    abort(); 
+    throw std::runtime_error(""); 
 }
 
 bool nasdataline::addline(std::string linetoadd)

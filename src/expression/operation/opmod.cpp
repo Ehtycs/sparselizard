@@ -22,8 +22,11 @@ std::vector<std::vector<densemat>> opmod::interpolate(elementselector& elemselec
         return argmat;
     }
 
-    std::cout << "Error in 'opmod' object: without FFT a modulo can only be computed for constant (harmonic 1) operations" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'opmod' object: without FFT a modulo can only be computed for constant (harmonic 1) operations" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 densemat opmod::multiharmonicinterpolate(int numtimeevals, elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)

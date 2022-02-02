@@ -48,8 +48,9 @@ std::vector<std::vector<densemat>> opon::interpolate(elementselector& elemselect
     // Make sure the coordinate shift expression was constant in time:
     if (xmatvec.size() > 2 || ymatvec.size() > 2 || zmatvec.size() > 2)
     {
-        std::cout << "Error in 'opon' object: coordinate shift expression cannot be (multi) harmonic" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opon' object: coordinate shift expression cannot be (multi) harmonic" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     densemat xvalmat, yvalmat, zvalmat;
@@ -87,8 +88,9 @@ std::vector<std::vector<densemat>> opon::interpolate(elementselector& elemselect
             if (isfound[i] == false)
             {
                 std::cout << "Error in 'opon' object: trying to interpolate at a point outside of physical region " << myphysreg << " or interpolation algorithm failed to converge" << std::endl;
-                std::cout << "Error was at (x,y,z) = (" << xyzcoords[3*i+0] << ", " << xyzcoords[3*i+1] << ", " << xyzcoords[3*i+2] << ")" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error was at (x,y,z) = (" << xyzcoords[3*i+0] << ", " << xyzcoords[3*i+1] << ", " << xyzcoords[3*i+2] << ")" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         }
     }
@@ -156,8 +158,9 @@ densemat opon::multiharmonicinterpolate(int numtimeevals, elementselector& elems
     // Make sure the coordinate shift expression was constant in time:
     if (xmatvec.size() > 2 || ymatvec.size() > 2 || zmatvec.size() > 2)
     {
-        std::cout << "Error in 'opon' object: coordinate shift expression cannot be (multi) harmonic" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'opon' object: coordinate shift expression cannot be (multi) harmonic" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     densemat xvalmat, yvalmat, zvalmat;
@@ -195,8 +198,9 @@ densemat opon::multiharmonicinterpolate(int numtimeevals, elementselector& elems
             if (isfound[i] == false)
             {
                 std::cout << "Error in 'opon' object: trying to interpolate at a point outside of physical region " << myphysreg << " or interpolation algorithm failed to converge" << std::endl;
-                std::cout << "Error was at (x,y,z) = (" << xyzcoords[3*i+0] << ", " << xyzcoords[3*i+1] << ", " << xyzcoords[3*i+2] << ")" << std::endl;
-                abort();
+                std::stringstream tmp;
+                tmp  << "Error was at (x,y,z) = (" << xyzcoords[3*i+0] << ", " << xyzcoords[3*i+1] << ", " << xyzcoords[3*i+2] << ")" << std::endl;
+                throw std::runtime_error(tmp.str());
             }
         }
     }

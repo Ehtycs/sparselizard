@@ -58,8 +58,9 @@ void nastraninterface::readfromfile(std::string name, nodes& mynodes, elements& 
     }
     else 
     {
-        std::cout << "Unable to open file " << name << " or file not found" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Unable to open file " << name << " or file not found" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 

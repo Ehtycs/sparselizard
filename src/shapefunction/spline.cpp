@@ -11,8 +11,9 @@ spline::spline(std::string filename, char delimiter)
     
     if (data.size()%2 != 0)
     {
-        std::cout << "Error in 'spline' object: expected a vector length multiple of 2 in '" << filename << "' (format {x1,y1,x2,y2,...})" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'spline' object: expected a vector length multiple of 2 in '" << filename << "' (format {x1,y1,x2,y2,...})" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     std::vector<double> xin(data.size()/2);
@@ -38,14 +39,16 @@ void spline::set(std::vector<double>& xin, std::vector<double>& yin)
     
     if (xin.size() != yin.size())
     {
-        std::cout << "Error in 'spline' object: x and y dataset sizes do not match" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'spline' object: x and y dataset sizes do not match" << std::endl;
+        throw std::runtime_error(tmp.str());
     }   
     int len = xin.size();
     if (len < 2)
     {
-        std::cout << "Error in 'spline' object: expected at least two data points" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'spline' object: expected at least two data points" << std::endl;
+        throw std::runtime_error(tmp.str());
     }   
     
     myx = densemat(len,1);
@@ -68,8 +71,9 @@ void spline::set(std::vector<double>& xin, std::vector<double>& yin)
     {
         if (xvals[i]-xvals[i-1] < absnoise)
         {
-            std::cout << "Error in 'spline' object: distance between two samples is " << (xvals[i]-xvals[i-1]) << " (below noise level " << absnoise << ")" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'spline' object: distance between two samples is " << (xvals[i]-xvals[i-1]) << " (below noise level " << absnoise << ")" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     
@@ -173,8 +177,9 @@ densemat spline::evalat(densemat input)
     double absnoise = noisethreshold*std::abs(xmax-xmin);
     if (inmin < xmin-absnoise || inmax > xmax+absnoise)
     {
-        std::cout << "Error in 'spline' object: data requested in interval (" << inmin << "," << inmax << ") is out of the provided data range (" << xmin << "," << xmax << ")" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'spline' object: data requested in interval (" << inmin << "," << inmax << ") is out of the provided data range (" << xmin << "," << xmax << ")" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
     
     
@@ -224,8 +229,9 @@ void spline::write(std::string filename, int numsplits, char delimiter)
 {
     if (numsplits < 0)
     {
-        std::cout << "Error in 'spline' object: cannot write with " << numsplits << " splits" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'spline' object: cannot write with " << numsplits << " splits" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     // Get the x positions:

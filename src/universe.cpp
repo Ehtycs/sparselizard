@@ -12,8 +12,9 @@ void universe::addtorawmeshcounter(int val)
 {
     if (mynumrawmeshes+val < 0)
     {
-        std::cout << "Error in 'universe' namespace: unexpected negative value for rawmesh counter" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'universe' namespace: unexpected negative value for rawmesh counter" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     PetscBool ispetscinitialized;
@@ -56,8 +57,9 @@ std::shared_ptr<rawmesh> universe::getrawmesh(void)
         return myrawmesh;
     else
     {
-        std::cout << "Error in 'universe' namespace: an operation tried to access the mesh object but it is not available" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'universe' namespace: an operation tried to access the mesh object but it is not available" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -72,8 +74,9 @@ double universe::getfundamentalfrequency(void)
         return fundamentalfrequency;
     else
     {
-        std::cout << "Error in 'universe' namespace: the fundamental frequency cannot be negative or 0 (make sure it was set)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'universe' namespace: the fundamental frequency cannot be negative or 0 (make sure it was set)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 

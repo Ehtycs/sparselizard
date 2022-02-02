@@ -39,8 +39,11 @@ std::vector<std::vector<densemat>> opcondition::interpolate(elementselector& ele
         return trueargmat;
     }
 
-    std::cout << "Error in 'opcondition' object: without FFT the conditional operation can only be computed for constant (harmonic 1) operations" << std::endl;
-    abort();
+    std::stringstream tmp;
+
+    tmp  << "Error in 'opcondition' object: without FFT the conditional operation can only be computed for constant (harmonic 1) operations" << std::endl;
+
+    throw std::runtime_error(tmp.str());
 }
 
 densemat opcondition::multiharmonicinterpolate(int numtimeevals, elementselector& elemselect, std::vector<double>& evaluationcoordinates, expression* meshdeform)

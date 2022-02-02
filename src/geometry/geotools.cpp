@@ -29,8 +29,9 @@ std::vector<std::shared_ptr<rawshape>> geotools::coordstopoints(std::vector<doub
     }
     else
     {
-        std::cout << "Error in 'geotools' namespace: length of coordinate vector should be a multiple of three" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'geotools' namespace: length of coordinate vector should be a multiple of three" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -68,8 +69,9 @@ double geotools::getplanerotation(std::string xy, std::vector<double> p1, std::v
     // If the points are colinear:
     if (normalnorm/v12norm < threshold)
     {
-        std::cout << "Error in 'geotools' namespace: points provided are colinear (only allowed in 2D)";
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'geotools' namespace: points provided are colinear (only allowed in 2D)";
+        throw std::runtime_error(tmp.str());
     }
 
     // If the normal is perpendicular to the z axis (i.e. it has a 0 z component):
@@ -83,7 +85,7 @@ double geotools::getplanerotation(std::string xy, std::vector<double> p1, std::v
     if (xy == "yrot")
         return 180.0/pi*std::atan(-vnormal[0]/vnormal[2]);
         
-    abort(); // fix return warning
+    throw std::runtime_error(""); // fix return warning
 }
 
 void geotools::rotate(double alphax, double alphay, double alphaz, std::vector<double>* coords)
@@ -216,8 +218,9 @@ std::vector< std::shared_ptr<rawshape> > geotools::getrawshapes(std::vector<shap
             rawshapes[i] = currentrawshapeptr;
         else
         {
-            std::cout << "Error in 'geotools' namespace: encountered an undefined shape (NULL rawshape pointer)" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'geotools' namespace: encountered an undefined shape (NULL rawshape pointer)" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     
@@ -386,8 +389,9 @@ int geotools::getcurvatureorder(std::vector< std::shared_ptr<rawshape> > rawshap
         int curco = rawshapes[i]->getcurvatureorder();
         if (curco != co)
         {
-            std::cout << "Error in 'geotools' namespace: expected a unique curvature order for all shapes provided" << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'geotools' namespace: expected a unique curvature order for all shapes provided" << std::endl;
+            throw std::runtime_error(tmp.str());
         }
     }
     

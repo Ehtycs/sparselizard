@@ -73,8 +73,9 @@ void contribution::generate(std::shared_ptr<rawvec> myvec, std::shared_ptr<rawma
             integrationorder = 0;
         if (integrationorder < 0)
         {
-            std::cout << "Error in 'contribution' object: trying to integrate at negative order " << integrationorder << std::endl;
-            abort();
+            std::stringstream tmp;
+            tmp  << "Error in 'contribution' object: trying to integrate at negative order " << integrationorder << std::endl;
+            throw std::runtime_error(tmp.str());
         }
             
         // Get the Gauss points and their weight:

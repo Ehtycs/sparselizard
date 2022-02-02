@@ -7,8 +7,9 @@ void vec::errorifpointerisnull(void)
 {
     if (rawvecptr == NULL)
     {
-        std::cout << "Error in 'vec' object: cannot perform the operation (vector is undefined)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'vec' object: cannot perform the operation (vector is undefined)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -24,8 +25,9 @@ void vec::permute(indexmat rowpermute, bool invertit)
 {
     if (rowpermute.count() != size())
     {
-        std::cout << "Error in 'vec' object: unexpected argument size for permutation" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'vec' object: unexpected argument size for permutation" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 
     IS rowpermutis;
@@ -103,8 +105,9 @@ void vec::setvalue(port prt, double value, std::string op)
     }
     else
     {
-        std::cout << "Error in 'vec' object: cannot set the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'vec' object: cannot set the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -119,8 +122,9 @@ double vec::getvalue(port prt)
     }
     else
     {
-        std::cout << "Error in 'vec' object: cannot get the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
-        abort();
+        std::stringstream tmp;
+        tmp  << "Error in 'vec' object: cannot get the value of a multiharmonic port (only constant harmonic 1)" << std::endl;
+        throw std::runtime_error(tmp.str());
     }
 }
 
@@ -196,8 +200,11 @@ double vec::norm(std::string type)
     if (type == "2") { VecNorm(getpetsc(), NORM_2, &normval); return normval; }
     if (type == "infinity") { VecNorm(getpetsc(), NORM_INFINITY, &normval); return normval; }
     
-    std::cout << "Error in 'vec' object: norm type unknown (use '1', '2' or 'infinity)" << std::endl;
-    abort();
+    std::stringstream tmp;
+    
+    tmp  << "Error in 'vec' object: norm type unknown (use '1', '2' or 'infinity)" << std::endl;
+    
+    throw std::runtime_error(tmp.str());
 }
 
 double vec::sum(void)
