@@ -464,6 +464,16 @@ void densemat::power(densemat exponent)
             myvaluesptr[i] = std::pow(myvaluesptr[i], expmyvaluesptr[i]);
 }
 
+void densemat::atan2(densemat B)
+{
+    double* myvaluesptr = myvalues.get();
+    double* Bmyvaluesptr = B.myvalues.get();
+
+    for (long long int i = 0; i < numrows*numcols; i++)
+        myvaluesptr[i] = std::atan2(myvaluesptr[i], Bmyvaluesptr[i]);
+}
+
+
 void densemat::invert(void)
 {
     double* myvaluesptr = myvalues.get();

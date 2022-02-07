@@ -160,6 +160,7 @@ class operation : public std::enable_shared_from_this<operation>
 #include "opacos.h"
 #include "opasin.h"
 #include "opatan.h"
+#include "opatan2.h"
 #include "opathp.h"
 #include "opcondition.h"
 #include "opconstant.h"

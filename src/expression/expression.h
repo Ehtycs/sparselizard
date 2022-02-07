@@ -204,6 +204,7 @@ class expression
         expression asin(void);
         expression acos(void);
         expression atan(void);
+        expression atan2(expression);
         expression abs(void);
         expression log10(void);
         expression mod(double modval);

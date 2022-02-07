@@ -117,6 +117,8 @@ class densemat
         void subtract(densemat B);
         void minus(void);
         void power(densemat exponent);
+        void atan2(densemat B);
+
         // Compute 1/val for all values:
         void invert(void);
         void abs(void);

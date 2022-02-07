@@ -1869,6 +1869,16 @@ expression expression::atan(void)
     return atanexpr;
 }
 
+expression expression::atan2(expression y)
+{
+    expression atanexpr = this->getcopy();
+
+    for (int i = 0; i < mynumrows*mynumcols; i++)
+        atanexpr.myoperations[i] = std::shared_ptr<opatan2>(new opatan2({myoperations[i], y.myoperations[i]}));
+
+    return atanexpr;
+}
+
 expression expression::abs(void)
 {
     expression absexpr = this->getcopy();
