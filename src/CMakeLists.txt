@@ -16,7 +16,8 @@ set(SRC_DIR_LIST
   ${CMAKE_CURRENT_SOURCE_DIR}/geometry
   ${CMAKE_CURRENT_SOURCE_DIR}/expression
   ${CMAKE_CURRENT_SOURCE_DIR}/expression/operation
-  ${CMAKE_CURRENT_SOURCE_DIR}/gausspoint)
+  ${CMAKE_CURRENT_SOURCE_DIR}/gausspoint
+  ${CMAKE_CURRENT_SOURCE_DIR}/user)
 
 custom_add_library_from_dir(sparselizard "${SRC_DIR_LIST}")
 
