@@ -894,7 +894,7 @@ expression sl::tan(expression input) { return input.tan(); }
 expression sl::asin(expression input) { return input.asin(); }
 expression sl::acos(expression input) { return input.acos(); }
 expression sl::atan(expression input) { return input.atan(); }
-expression sl::atan2(expression x, expression y) { return x.atan2(y); }
+expression sl::atan2(expression y, expression x) { return y.atan2(x); }
 expression sl::abs(expression input) { return input.abs(); }
 expression sl::sqrt(expression input) { return pow(input, 0.5); }
 expression sl::log10(expression input) { return input.log10(); }

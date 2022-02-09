@@ -140,7 +140,7 @@ namespace sl
     expression tan(expression input);
     expression asin(expression input);
     expression acos(expression input);
-    expression atan2(expression x, expression y);
+    expression atan2(expression y, expression x);
     expression atan(expression input);
     expression abs(expression input);
     expression sqrt(expression input);
