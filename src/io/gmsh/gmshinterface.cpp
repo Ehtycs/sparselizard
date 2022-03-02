@@ -35,18 +35,16 @@ void gmshinterface::readfromapi(nodes& mynodes, elements& myelements, physicalre
         throw std::runtime_error(tmp.str());
     }
 
-    int maxnodetag = *std::max_element(nodeTags.begin(), nodeTags.end());
+    int numberofnodes = 0;
     
-    int numberofnodes = coords.size()/3;
-    mynodes.setnumber(numberofnodes);
-    std::vector<double>* nodecoordinates = mynodes.getcoordinates();
-    // Renumbering in case the numbers are not consecutive/not starting from 0:
-    std::vector<int> noderenumbering(maxnodetag+1);
-    for (int i = 0; i < coords.size(); i++)
-        nodecoordinates->at(i) = coords[i];
-    for (int i = 0; i < numberofnodes; i++)
-        noderenumbering[nodeTags[i]] = i;
-        
+    int maxnodetag = *std::max_element(nodeTags.begin(), nodeTags.end());
+    std::vector<int> noderenumbering(maxnodetag+1, -1);
+    
+    // The coordinates follow the nodeTags order:
+    std::vector<int> nodeTagsrenumbering(maxnodetag+1, -1);
+    for (int i = 0; i < nodeTags.size(); i++)
+        nodeTagsrenumbering[nodeTags[i]] = i;
+    
         
     ///// Get all physical region numbers:
     
@@ -105,12 +103,39 @@ void gmshinterface::readfromapi(nodes& mynodes, elements& myelements, physicalre
                 for (int e = 0; e < elementTags[t].size(); e++)
                 {
                     for (int n = 0; n < numcurvednodes; n++)
-                        nodesincurrentelement[n] = noderenumbering[ elemnodeTags[t][e*numcurvednodes+n] ];
+                    {
+                        int currentnode = elemnodeTags[t][e*numcurvednodes+n];
+                        if (noderenumbering[currentnode] == -1)
+                        {
+                            noderenumbering[currentnode] = numberofnodes;
+                            numberofnodes++;
+                        }
+                        nodesincurrentelement[n] = noderenumbering[currentnode];
+                    }
                 
                     int elementindexincurrenttype = myelements.add(currentelementtype, curvatureorder, nodesincurrentelement);
                     currentphysicalregion->addelement(currentelementtype, elementindexincurrenttype);
                 }
             }
+        }
+    }
+    
+    
+    ///// Create the nodes object:
+    
+    mynodes.setnumber(numberofnodes);
+    std::vector<double>* nodecoordinates = mynodes.getcoordinates();
+    
+    for (int i = 0; i < noderenumbering.size(); i++)
+    {
+        int nr = noderenumbering[i];
+        int ntr = nodeTagsrenumbering[i];
+
+        if (nr != -1)
+        {
+            nodecoordinates->at(3*nr+0) = coords[3*ntr+0];
+            nodecoordinates->at(3*nr+1) = coords[3*ntr+1];
+            nodecoordinates->at(3*nr+2) = coords[3*ntr+2];
         }
     }
 }
@@ -119,6 +144,8 @@ void gmshinterface::readwithapi(std::string name, nodes& mynodes, elements& myel
 {
     gmsh::initialize();
     gmsh::open(name);
+    if (gentools::getfileextension(name) == ".geo")
+        gmsh::model::mesh::generate(gmsh::model::getDimension());
     readfromapi(mynodes, myelements, myphysicalregions);
     gmsh::finalize();
 }
