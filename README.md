@@ -1,3 +1,8 @@
+# Intro
+This repository is a fork of the original halbux/sparselizard repository. Major changes compared to the original are:
+- Error handling uses exceptions instead of std::abort -> This enables spylizard to work in IPython kernels without crashing the kernel on error.
+- Added atan2 function
+
 # Build instructions
 
 Run the scripts in the 'install_external_libs' folder then configure and build:
